@@ -38,13 +38,13 @@ class App extends Component {
   tuggleEditingAt = index =>
     this.tuggleGuestPropertyAt("isEditing", index);
 
-  tuggleConfirmationAt = indexToChange => 
+  setNameAt = (name, indexToChange) => 
     this.setState({
       guests: this.state.guests.map((guest, index)=> {
         if (index === indexToChange) {
           return {
             ...guest,
-            isConfirmed: !guest.isConfirmed
+            name
           };
         }
         return guest;
@@ -92,6 +92,7 @@ class App extends Component {
           guests={this.state.guests}
           tuggleConfirmationAt={this.tuggleConfirmationAt}
           tuggleEditingAt={this.tuggleEditingAt}
+          setNameAt={this.setNameAt}
         />
       
       </div>
