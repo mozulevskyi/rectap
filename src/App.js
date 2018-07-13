@@ -5,6 +5,8 @@ import GuestList from './GuestList';
 class App extends Component {
   
   state = {
+    isFiltered: false,
+    pendingGuest: "",
     guests: [
       {
         name: 'Picaso',
@@ -50,7 +52,28 @@ class App extends Component {
         return guest;
       })
     });
+  
+  tuggleFilter =() => 
+    this.setState({ isFiltered: !this.state.isFiltered });
 
+  handleNameInput = e =>
+    this.setState({ pendingGuest: e.target.value });
+  
+  newGuestSubmitHendler = e => {
+    e.preventDefault();
+    this.setState({
+      guests: [
+        {
+          name: this.state.pendingGuest,
+          isConfirmed: false,
+          isEditing: false
+        },
+        ...this.state.guests
+      ],
+      pendingGuest: ""
+    });
+  }
+  
   getTotalInvaited = () => this.state.guests.length;
 
   render() {
@@ -58,9 +81,13 @@ class App extends Component {
      <div className="App">
       <header>
         <h1>RSVP</h1>
-        <p>A Treehouse App</p>
-        <form>
-            <input type="text" value="Safia" placeholder="Invite Someone" />
+        <p>A Sample React App</p>
+        <form onSubmit={this.newGuestSubmitHendler}>
+            <input 
+              type="text"
+              onChange={this.handleNameInput}
+              value={this.state.pendingGuest}
+              placeholder="Invite Someone" />
             <button type="submit" name="submit" value="submit">Submit</button>
         </form>
       </header>
@@ -68,7 +95,10 @@ class App extends Component {
         <div>
           <h2>Invitees</h2>
           <label>
-            <input type="checkbox" /> Hide those who haven't responded
+            <input 
+              type="checkbox" 
+              onChange={this.tuggleFilter}
+              checked={this.state.isFiltered} /> Hide those who have not responded
           </label>
         </div>
         <table className="counter">
@@ -93,6 +123,7 @@ class App extends Component {
           tuggleConfirmationAt={this.tuggleConfirmationAt}
           tuggleEditingAt={this.tuggleEditingAt}
           setNameAt={this.setNameAt}
+          isFiltered={this.state.isFiltered}
         />
       
       </div>
