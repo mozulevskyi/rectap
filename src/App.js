@@ -37,6 +37,14 @@ class App extends Component {
   tuggleConfirmationAt = index =>
     this.tuggleGuestPropertyAt("isConfirmed", index);
 
+  removeGuestAt = index =>
+    this.setState({
+      guests: [
+        ...this.state.guests.slice(0, index),
+        ...this.state.guests.slice(index + 1)
+      ]
+    });
+
   tuggleEditingAt = index =>
     this.tuggleGuestPropertyAt("isEditing", index);
 
@@ -124,6 +132,7 @@ class App extends Component {
           tuggleEditingAt={this.tuggleEditingAt}
           setNameAt={this.setNameAt}
           isFiltered={this.state.isFiltered}
+          removeGuestAt={this.removeGuestAt}
         />
       
       </div>
